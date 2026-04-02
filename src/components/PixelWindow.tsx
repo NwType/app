@@ -6,10 +6,11 @@ interface Props {
   icon: string
   accentColor?: string
   onClose: () => void
+  onMinimize?: () => void
   children: React.ReactNode
 }
 
-export default function PixelWindow({ title, icon, accentColor = '#2255cc', onClose, children }: Props) {
+export default function PixelWindow({ title, icon, accentColor = '#2255cc', onClose, onMinimize, children }: Props) {
   // Close on Escape
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -35,7 +36,7 @@ export default function PixelWindow({ title, icon, accentColor = '#2255cc', onCl
         style={{
           position:'fixed', zIndex:101,
           width:'min(97vw, 880px)',
-          height:'min(93vh, 860px)',
+          height:'min(93dvh, 860px)',
           top:'50%', left:'50%',
           transform:'translate(-50%,-50%)',
           display:'flex', flexDirection:'column',
@@ -53,13 +54,13 @@ export default function PixelWindow({ title, icon, accentColor = '#2255cc', onCl
           <span className="px-title-text">{title}</span>
 
           <div style={{ display:'flex', gap:4, flexShrink:0 }}>
-            {/* Minimize (decorative) */}
-            <div style={{
-              width:20, height:20, background:'#ffd700',
-              border:'2px solid #0f0f23',
-              display:'flex', alignItems:'flex-end', justifyContent:'center',
-              paddingBottom:'2px', fontSize:10, color:'#0f0f23', fontWeight:'bold', cursor:'default',
-            }}>_</div>
+            {/* Minimize */}
+            <button
+              className="px-close-btn"
+              onClick={onMinimize}
+              style={{ background: '#ffd700', color: '#0f0f23' }}
+              aria-label="Minimizar"
+            >_</button>
             {/* Close */}
             <button
               id="window-close-btn"

@@ -112,7 +112,7 @@ function WindowContent({ id }: { id: WindowId }) {
   }
 }
 
-function Taskbar({ openWindow, onToggle }: { openWindow: WindowId | null; onToggle: (id: WindowId) => void }) {
+function Taskbar({ openApps, activeApp, onToggle }: { openApps: WindowId[]; activeApp: WindowId | null; onToggle: (id: WindowId) => void }) {
   const [time, setTime] = useState('')
   const [daysTogether, setDaysTogether] = useState(0)
 
@@ -134,16 +134,17 @@ function Taskbar({ openWindow, onToggle }: { openWindow: WindowId | null; onTogg
       </button>
 
       <div style={{ display:'flex', gap:4, flex:1, overflowX:'auto' }}>
-        {openWindow && (() => {
-          const f = FOLDERS.find(x => x.id === openWindow)!
+        {openApps.map(id => {
+          const f = FOLDERS.find(x => x.id === id)!
+          const isActive = id === activeApp
           return (
             <button key={f.id} className="px-btn"
               onClick={() => onToggle(f.id)}
-              style={{ padding:'3px 6px', fontSize:6, background:'#1a3a6a', borderColor:'#4a6bff', color:'#fff', flexShrink:0 }}>
+              style={{ padding:'3px 6px', fontSize:6, background: isActive ? '#1a3a6a' : '#111', borderColor: isActive ? '#4a6bff' : '#333', color:'#fff', flexShrink:0, borderBottomWidth: isActive ? 0 : 2, paddingTop: isActive ? 5 : 3 }}>
               {f.icon} {f.label}
             </button>
           )
-        })()}
+        })}
       </div>
 
       <div style={{ display:'flex', alignItems:'center', gap:8, flexShrink:0 }}>
@@ -175,7 +176,8 @@ function WelcomeMsg({ onDismiss }: { onDismiss: () => void }) {
 }
 
 export default function Desktop() {
-  const [openWindow, setOpenWindow] = useState<WindowId | null>(null)
+  const [openApps, setOpenApps] = useState<WindowId[]>([])
+  const [activeApp, setActiveApp] = useState<WindowId | null>(null)
   const [showWelcome, setShowWelcome] = useState(true)
   const [foldersVisible, setFoldersVisible] = useState(false)
 
@@ -183,9 +185,24 @@ export default function Desktop() {
     setTimeout(() => setFoldersVisible(true), 100)
   }, [])
 
+  const openApp = (id: WindowId) => {
+    if (!openApps.includes(id)) setOpenApps(prev => [...prev, id])
+    setActiveApp(id)
+  }
+
+  const closeApp = (id: WindowId) => {
+    setOpenApps(prev => prev.filter(x => x !== id))
+    if (activeApp === id) setActiveApp(null)
+  }
+
+  const toggleTaskbarApp = (id: WindowId) => {
+    if (activeApp === id) setActiveApp(null) // minimize
+    else setActiveApp(id) // restore
+  }
+
   return (
     <div className="desktop-in" style={{
-      width:'100vw', height:'100vh', display:'flex', flexDirection:'column',
+      width:'100vw', height:'100dvh', display:'flex', flexDirection:'column',
       position:'relative', overflow:'hidden',
     }}>
       <DesktopBackground />
@@ -211,20 +228,26 @@ export default function Desktop() {
           justifyItems:'center',
         }}>
           {FOLDERS.map((f,i) => (
-            <PixelFolder key={f.id} folder={f} idx={i} visible={foldersVisible} onClick={() => setOpenWindow(f.id)} />
+            <PixelFolder key={f.id} folder={f} idx={i} visible={foldersVisible} onClick={() => openApp(f.id)} />
           ))}
         </div>
       </div>
 
       {/* Taskbar */}
-      <Taskbar openWindow={openWindow} onToggle={id => setOpenWindow(prev => prev === id ? null : id)} />
+      <Taskbar openApps={openApps} activeApp={activeApp} onToggle={toggleTaskbarApp} />
 
       {/* Window */}
-      {openWindow && (() => {
-        const folder = FOLDERS.find(f => f.id === openWindow)!
+      {activeApp && (() => {
+        const folder = FOLDERS.find(f => f.id === activeApp)!
         return (
-          <PixelWindow title={folder.windowTitle} icon={folder.icon} accentColor={folder.accentColor} onClose={() => setOpenWindow(null)}>
-            <WindowContent id={openWindow} />
+          <PixelWindow 
+            title={folder.windowTitle} 
+            icon={folder.icon} 
+            accentColor={folder.accentColor} 
+            onClose={() => closeApp(activeApp)}
+            onMinimize={() => setActiveApp(null)}
+          >
+            <WindowContent id={activeApp} />
           </PixelWindow>
         )
       })()}
