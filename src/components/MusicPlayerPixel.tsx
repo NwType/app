@@ -52,7 +52,7 @@ function PixelVinyl({ isPlaying }: { isPlaying: boolean }) {
         boxShadow: '2px 2px 0 rgba(0,0,0,0.4)',
         borderRadius: '0 0 4px 4px',
       }}>
-        <div style={{ position:'absolute', bottom: -4, left: -4, width: 10, height: 10, borderRadius: '50%', background: '#ffd700', border: '2px solid #0f0f23' }} />
+        <div style={{ position: 'absolute', bottom: -4, left: -4, width: 10, height: 10, borderRadius: '50%', background: '#ffd700', border: '2px solid #0f0f23' }} />
       </div>
     </div>
   )
@@ -62,7 +62,7 @@ function FloatingNotes({ isPlaying }: { isPlaying: boolean }) {
   const [notes, setNotes] = useState<{ id: number; x: number; note: string }[]>([])
   useEffect(() => {
     if (!isPlaying) { setNotes([]); return }
-    const symbols = ['♩','♪','♫','♬']
+    const symbols = ['♩', '♪', '♫', '♬']
     const interval = setInterval(() => {
       setNotes(p => [...p.slice(-4), { id: Date.now(), x: Math.random() * 60 - 30, note: symbols[Math.floor(Math.random() * symbols.length)] }])
     }, 700)
@@ -92,8 +92,8 @@ export default function MusicPlayerPixel() {
   const audioRef = useRef<HTMLAudioElement>(null)
 
   const tabs = [
-    { id: 'all' as const, label: '💙 ALL', color: '#2255cc' },
-    { id: 'gabi' as const, label: '🌸 GABI', color: '#e05c95' },
+    { id: 'all' as const, label: '❤️ ALL', color: '#f00000ff' },
+    { id: 'gabi' as const, label: '🌸 GABI', color: '#291ebbff' },
     { id: 'kevin' as const, label: '🎸 KEVIN', color: '#c8a400' },
   ]
 
@@ -121,7 +121,7 @@ export default function MusicPlayerPixel() {
     playSong(songs[(idx + 1) % songs.length])
   }
 
-  const fmt = (s: number) => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`
+  const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
 
   return (
     <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 16, height: '100%' }}>
@@ -160,7 +160,7 @@ export default function MusicPlayerPixel() {
                 <div className="px-progress-track" style={{ width: '100%' }}>
                   <div className="px-progress-fill" style={{ width: `${progress}%` }} />
                 </div>
-                <div style={{ display:'flex', justifyContent:'space-between', fontFamily:"'VT323',monospace", fontSize: 14, color:'#606080', marginTop: 2 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'VT323',monospace", fontSize: 14, color: '#606080', marginTop: 2 }}>
                   <span>{fmt(currentTime)}</span><span>{fmt(duration)}</span>
                 </div>
               </div>
@@ -168,7 +168,7 @@ export default function MusicPlayerPixel() {
               {/* Controls */}
               <div style={{ display: 'flex', gap: 8 }}>
                 <button className="px-btn px-btn-dark" style={{ padding: '6px 10px' }}
-                  onClick={() => { const i = songs.findIndex(s=>s.id===currentSong?.id); playSong(songs[(i-1+songs.length)%songs.length]) }}>
+                  onClick={() => { const i = songs.findIndex(s => s.id === currentSong?.id); playSong(songs[(i - 1 + songs.length) % songs.length]) }}>
                   ⏮
                 </button>
                 <button id="play-pause-btn" className="px-btn px-btn-gold" style={{ padding: '6px 14px' }}
@@ -184,7 +184,7 @@ export default function MusicPlayerPixel() {
               </div>
             </>
           ) : (
-            <div style={{ fontFamily:"'VT323',monospace", fontSize:18, color:'#606080', textAlign:'center' }}>
+            <div style={{ fontFamily: "'VT323',monospace", fontSize: 18, color: '#606080', textAlign: 'center' }}>
               Elige una canción<span className="blink">_</span>
             </div>
           )}
@@ -235,17 +235,17 @@ export default function MusicPlayerPixel() {
                     transition: 'all 0.1s',
                   }}
                 >
-                  <span style={{ fontFamily:"'VT323',monospace", fontSize:16, color: active ? '#ffd700' : '#606080', minWidth: 20 }}>
-                    {active && isPlaying ? '♫' : `${i+1}`}
+                  <span style={{ fontFamily: "'VT323',monospace", fontSize: 16, color: active ? '#ffd700' : '#606080', minWidth: 20 }}>
+                    {active && isPlaying ? '♫' : `${i + 1}`}
                   </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontFamily:"'Press Start 2P',monospace", fontSize:7, color: active ? '#fff' : '#d0d0f0', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', lineHeight: 1.8 }}>
+                    <div style={{ fontFamily: "'Press Start 2P',monospace", fontSize: 7, color: active ? '#fff' : '#d0d0f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.8 }}>
                       {song.title}
                     </div>
-                    <div style={{ fontFamily:"'VT323',monospace", fontSize:14, color: active ? '#c0d0ff' : '#606080', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                    <div style={{ fontFamily: "'VT323',monospace", fontSize: 14, color: active ? '#c0d0ff' : '#606080', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {song.artist}
                     </div>
-                    <div style={{ fontFamily:'Inter,sans-serif', fontSize:9, color: active ? '#aac0ff' : '#404060', fontStyle:'italic', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                    <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 9, color: active ? '#aac0ff' : '#404060', fontStyle: 'italic', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {song.note}
                     </div>
                   </div>
@@ -255,7 +255,7 @@ export default function MusicPlayerPixel() {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile styles */}
       <style>{`
         @media (max-width: 600px) {
