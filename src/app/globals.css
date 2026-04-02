@@ -1,26 +1,461 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap');
+
 @import "tailwindcss";
 
+/* ══════════════════════════════════════
+   PIXEL ART DESIGN SYSTEM — GABI-OS
+══════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --px-black:       #0f0f23;
+  --px-dark:        #1a1a2e;
+  --px-navy:        #16213e;
+  --px-blue:        #2255cc;
+  --px-blue-light:  #4a6bff;
+  --px-blue-bright: #7b9ff9;
+  --px-gold:        #ffd700;
+  --px-gold-dark:   #c8a400;
+  --px-pink:        #ff9ec4;
+  --px-pink-dark:   #e05c95;
+  --px-green:       #55c57a;
+  --px-green-dark:  #2a7a3d;
+  --px-red:         #ff5555;
+  --px-white:       #f0f0f0;
+  --px-gray-light:  #a0a0c0;
+  --px-gray:        #606080;
+  --px-star:        #fffce8;
+  --px-sky-top:     #050518;
+  --px-sky-bottom:  #0d1b4b;
+  --px-ground:      #1a3a1a;
+  --px-grass:       #2d7a2d;
+  --px-mountain:    #0d1a3a;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--px-black);
+  image-rendering: pixelated;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--px-white);
+  -webkit-font-smoothing: none;
 }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--px-dark); border-left: 2px solid var(--px-black); }
+::-webkit-scrollbar-thumb { background: var(--px-blue); border: 2px solid var(--px-black); }
+
+/* ══════════════════════════════════════
+   WINDOW CHROME
+══════════════════════════════════════ */
+.px-window {
+  background: var(--px-navy);
+  border: 3px solid var(--px-black);
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.px-title-bar {
+  background: linear-gradient(180deg, var(--px-blue-light) 0%, var(--px-blue) 55%, #1a44aa 100%);
+  border-bottom: 3px solid var(--px-black);
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.px-title-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.px-close-btn {
+  width: 22px;
+  height: 22px;
+  background: var(--px-red);
+  border: 2px solid var(--px-black);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  color: #fff;
+  font-family: monospace;
+  font-weight: bold;
+  flex-shrink: 0;
+  transition: background 0.1s;
+}
+.px-close-btn:hover { background: #ff2222; }
+.px-close-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+
+.px-window-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--px-dark);
+}
+
+/* ══════════════════════════════════════
+   PIXEL BUTTONS
+══════════════════════════════════════ */
+.px-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 3px solid var(--px-black);
+  padding: 8px 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  line-height: 1.4;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--px-black);
+  transition: transform 0.08s, box-shadow 0.08s;
+  user-select: none;
+  image-rendering: pixelated;
+  white-space: nowrap;
+}
+.px-btn:hover  { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--px-black); }
+.px-btn:active { transform: translate(4px, 4px); box-shadow: none; }
+
+.px-btn-blue { background: var(--px-blue); color: #fff; }
+.px-btn-gold { background: var(--px-gold); color: var(--px-black); }
+.px-btn-pink { background: var(--px-pink); color: var(--px-black); }
+.px-btn-green { background: var(--px-green); color: var(--px-black); }
+.px-btn-dark { background: var(--px-dark); color: var(--px-white); border-color: var(--px-blue); }
+
+/* ══════════════════════════════════════
+   TEXT STYLES
+══════════════════════════════════════ */
+.px-heading {
+  font-family: 'Press Start 2P', monospace;
+  line-height: 1.8;
+  image-rendering: pixelated;
+}
+.px-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  line-height: 2;
+}
+.px-vt {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  line-height: 1.4;
+}
+.px-body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════════════
+   PIXEL PANEL
+══════════════════════════════════════ */
+.px-panel {
+  background: var(--px-black);
+  border: 3px solid var(--px-blue);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.6);
+  padding: 12px;
+}
+.px-panel-gold {
+  background: var(--px-black);
+  border: 3px solid var(--px-gold);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.6);
+  padding: 12px;
+}
+.px-panel-pink {
+  background: var(--px-black);
+  border: 3px solid var(--px-pink);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.6);
+  padding: 12px;
+}
+
+/* ══════════════════════════════════════
+   CRT BOOT SCREEN
+══════════════════════════════════════ */
+.crt {
+  position: relative;
+  background: #000;
+}
+.crt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.10) 0px,
+    rgba(0,0,0,0.10) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 50;
+}
+.crt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
+  z-index: 51;
+}
+
+/* ══════════════════════════════════════
+   DESKTOP FOLDER ICON
+══════════════════════════════════════ */
+.px-folder-icon {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  transition: transform 0.08s;
+  border-radius: 0;
+  border: 2px solid transparent;
+}
+.px-folder-icon:hover {
+  background: rgba(74, 107, 255, 0.2);
+  border-color: rgba(74, 107, 255, 0.5);
+}
+.px-folder-icon:active { transform: scale(0.95); }
+.px-folder-icon.selected {
+  background: rgba(74, 107, 255, 0.35);
+  border-color: rgba(74, 107, 255, 0.7);
+}
+
+.px-icon-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  line-height: 1.6;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+  max-width: 72px;
+  word-break: break-word;
+}
+
+/* ══════════════════════════════════════
+   TASKBAR
+══════════════════════════════════════ */
+.px-taskbar {
+  background: linear-gradient(180deg, #2a2a5a 0%, #1a1a3a 100%);
+  border-top: 3px solid var(--px-blue);
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.blink { animation: blink 1s step-end infinite; }
+
+@keyframes windowOpen {
+  from { transform: scale(0.85) translateY(10px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+.window-appear { animation: windowOpen 0.18s cubic-bezier(0.2, 0, 0, 1.4) forwards; }
+
+/* Centered window animation (keeps translate(-50%,-50%) intact) */
+@keyframes windowAppearCenter {
+  from { transform: translate(-50%,-50%) scale(0.82); opacity: 0; }
+  to   { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+}
+@media (max-width: 600px) {
+  @keyframes windowAppearCenter {
+    from { transform: none; opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+}
+
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.8); }
+  50%       { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15%       { transform: scale(1.4); }
+  30%       { transform: scale(1); }
+  50%       { transform: scale(1.2); }
+}
+.heartbeat { animation: heartbeat 2.2s ease infinite; }
+
+@keyframes crtFlicker {
+  0%  { opacity: 0; }
+  5%  { opacity: 0.8; }
+  10% { opacity: 0.2; }
+  15% { opacity: 1; }
+  18% { opacity: 0.6; }
+  22% { opacity: 1; }
+  100% { opacity: 1; }
+}
+.crt-flicker { animation: crtFlicker 0.6s ease forwards; }
+
+@keyframes bootFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.boot-fade-out { animation: bootFadeOut 0.5s ease forwards; }
+
+@keyframes desktopIn {
+  from { opacity: 0; filter: brightness(0); }
+  to   { opacity: 1; filter: brightness(1); }
+}
+.desktop-in { animation: desktopIn 0.8s ease forwards; }
+
+@keyframes noteFloat {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-60px) scale(0.5); }
+}
+
+@keyframes catBob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+.cat-bob { animation: catBob 2s ease-in-out infinite; }
+
+/* ══════════════════════════════════════
+   PIXEL PROGRESS BAR
+══════════════════════════════════════ */
+.px-progress-track {
+  height: 14px;
+  background: #111;
+  border: 2px solid var(--px-white);
+  position: relative;
+  overflow: hidden;
+}
+.px-progress-fill {
+  height: 100%;
+  background: var(--px-blue-light);
+  transition: width 0.3s linear;
+  image-rendering: pixelated;
+}
+
+/* ══════════════════════════════════════
+   PIXEL INPUT / SELECT
+══════════════════════════════════════ */
+.px-input {
+  background: var(--px-black);
+  border: 2px solid var(--px-blue);
+  box-shadow: 2px 2px 0 var(--px-black);
+  color: var(--px-white);
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 6px 10px;
+  outline: none;
+}
+.px-input:focus {
+  border-color: var(--px-gold);
+}
+
+/* ══════════════════════════════════════
+   MISC
+══════════════════════════════════════ */
+.px-divider {
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--px-blue) 0px, var(--px-blue) 4px,
+    transparent 4px, transparent 8px
+  );
+  margin: 12px 0;
+}
+.px-divider-gold {
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--px-gold) 0px, var(--px-gold) 4px,
+    transparent 4px, transparent 8px
+  );
+  margin: 12px 0;
+}
+
+/* ══════════════════════════════════════
+   CUSTOM CURSOR — HOLLOW KNIGHT
+══════════════════════════════════════ */
+*, *::before, *::after {
+  cursor: url('/Cursor/Normal.cur'), auto;
+}
+button, a, [role="button"], [style*="cursor: pointer"] {
+  cursor: url('/Cursor/Normal.cur'), pointer !important;
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+
+/* Window fully fills mobile screens */
+@media (max-width: 600px) {
+  .px-window {
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    border-radius: 0 !important;
+  }
+  .px-title-text { font-size: 7px !important; }
+  .px-taskbar { height: 40px !important; }
+  .px-btn { padding: 5px 8px !important; font-size: 7px !important; }
+}
+
+/* Reduce window padding on small screens */
+@media (max-width: 480px) {
+  .px-window-body > div { padding: 12px !important; }
+}
+
+/* ══════════════════════════════════════
+   PEOPLE GLOW PULSE
+══════════════════════════════════════ */
+@keyframes peoplePulse {
+  0%,100% { filter: drop-shadow(0 0 4px rgba(100,158,255,0.3)); }
+  50%      { filter: drop-shadow(0 0 12px rgba(100,158,255,0.7)); }
+}
+.people-pulse { animation: peoplePulse 3s ease-in-out infinite; }
+
+/* ══════════════════════════════════════
+   WINDOW APPEAR (centered) — override
+   for mobile to slide up instead
+══════════════════════════════════════ */
+@media (max-width: 600px) {
+  @keyframes windowOpen {
+    from { transform: translateY(30px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+}
+
